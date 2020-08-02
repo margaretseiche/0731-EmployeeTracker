@@ -176,53 +176,57 @@ async function addEmployee() {
 
 async function viewDepartments() {
   console.log("Viewing all departments...\n");
-  var query = connection.query("SELECT * FROM department",
-
+  var query = connection.query("SELECT * FROM department"); 
+  console.log(query);
 };
 
 async function viewRoles() {
   console.log("Viewing all roles...\n");
-  var query = connection.query("SELECT * FROM role",
+  var query = connection.query("SELECT * FROM role");
 //  id, title, department, salary FROM role LEFT JOIN department ;
-
+  console.log(query);
 }; 
 
 async function viewEmployees() {
   console.log("Viewing all employees...\n");
-  var query = connection.query("SELECT * FROM employee",
+  var query = connection.query("SELECT * FROM employee LEFT JOIN role ON employee.roleId = roleId");
+  console.log(query);
 };
 
 async function viewEmployeesByDepartment() {
   console.log("Viewing employees by department...\n");
-  var query = connection.query("SELECT * FROM employee ",//////WHERE 
+  var query = connection.query("SELECT * FROM employee LEFT JOIN department ON employee.departmentId = departmentId");
+  console.log(query);
 };
 
 async function viewEmployeesByRole() {
   console.log("Viewing employees by role...\n");
-  var query = connection.query("SELECT * FROM employee ",//////WHERE 
+  var query = connection.query("SELECT * FROM employee ");//////WHERE; 
 };
 
 async function viewEmployeesByManager() {
   console.log("Viewing employees by manager...\n");
-  var query = connection.query("SELECT * FROM employee ",//////WHERE 
+  var query = connection.query("SELECT * FROM employee ");//////WHERE; 
 };
 
 async function updateRole() {
-  var query = connection.query("UPDATE  role",
+  var query = connection.query("UPDATE  role");
 };
 
 async function updateEmployee() {
-  var query = connection.query("UPDATE  employee",
+  var query = connection.query("UPDATE  employee");
 };
 
 async function deleteDepartment() {
-  var query = connection.query("DELETE  department",
+  var query = connection.query("DELETE  department");
 };
 
 async function deleteRole() {
-  var query = connection.query("DELETE role WHERE id = ?", roleId)
+  var query = connection.query("DELETE role WHERE id = ?", roleId);
+  console.log(query);
 };
 
 async function deleteEmployee() {
-  var query = connection.query("DELETE employee WHERE id = ?", employeeId,
+  var query = connection.query("DELETE employee WHERE id = ?", employeeId);
+  console.log(query);
 };
