@@ -176,21 +176,53 @@ async function addEmployee() {
 
 async function viewDepartments() {
   console.log("Viewing all departments...\n");
-  var query = connection.query("SELECT * FROM department"); 
-  console.log(query);
+  var query = connection.query("SELECT * FROM department", function(err,res) {
+    if (err) throw err;
+    for (var i = 0; i < res.length; i++) {
+      console.log(
+          res[i].department.name + res[i].department.id
+      )
+    };
+    whichAction();
+  }); 
 };
 
 async function viewRoles() {
   console.log("Viewing all roles...\n");
-  var query = connection.query("SELECT * FROM role");
-//  id, title, department, salary FROM role LEFT JOIN department ;
-  console.log(query);
+  var query = connection.query("SELECT * FROM role LEFT JOIN department ON role.deparmentId = deparmentId", function(err,res) { 
+    if (err) throw err;
+    for (var i = 0; i < res.length; i++) {
+      console.log(
+          res[i].role.title + ", Role Id: " + res[i].role.id + ", \n Salary: $" + res[i].role.salary + "\n" +           
+          res[i].department.name + " Department, Dept #" + res[i].department.id +
+          "---------------------------------------"
+      )
+    };
+    whichAction();
+  }); 
 }; 
 
 async function viewEmployees() {
   console.log("Viewing all employees...\n");
-  var query = connection.query("SELECT * FROM employee LEFT JOIN role ON employee.roleId = roleId");
-  console.log(query);
+  var query = connection.query((
+    "SELECT * FROM employee LEFT JOIN role ON employee.roleId = roleId LEFT JOIN department ON role.deparmentId = deparmentId"), 
+    function(err,res) {
+    if (err) throw err;
+    for (var i = 0; i < res.length; i++) {
+      console.log(
+        "Employee: " +
+          res[i].employee.first_name + res[i].employee.last_name +
+          " || : Role" +
+          res[i].role.title +
+          " || Salary: " +
+          res[i].role.salary +
+          " || Department: " +
+          res[i].department.name +
+          "---------------------------------------"
+      )
+    };
+    whichAction();
+  });
 };
 
 async function viewEmployeesByDepartment() {
