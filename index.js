@@ -1,26 +1,27 @@
-const mysql = require("mysql");
+const connection = require("./db/connection");
 const inquirer = require("inquirer"); 
 require("console.table");
 
-var connection = mysql.createConnection({
-  host: "localhost",
+whichAction();
+// var connection = mysql.createConnection({
+//   host: "localhost",
 
-  // Your port; if not 3306
-  port: 3306,
+//   // Your port; if not 3306
+//   port: 3306,
 
-  // Your username
-  user: "root",
+//   // Your username
+//   user: "root",
 
-  // Your password
-  password: "password",
-  database: "employeeTrackerDB"
-});
+//   // Your password
+//   password: "password",
+//   database: "employeeTrackerDB"
+// });
 
-connection.connect(function(err) {
-  if (err) throw err;
-  console.log("connected as id " + connection.threadId + "\n");
-  whichAction();
-});
+// connection.connect(function(err) {
+//   if (err) throw err;
+//   console.log("connected as id " + connection.threadId + "\n");
+//   whichAction();
+// });
 
 
 function whichAction() {
@@ -116,8 +117,8 @@ async function addDepartment() {
     })
     .then(function(answer) {
       console.log("Inserting a new department...\n");
-      return connection.query("INSERT INTO department SET ?",
-      { department: answer.department }, function(err, res) {
+      console.log(answer.department);
+      return connection.query("INSERT INTO department SET ?", answer.department, function(err, res) {
         whichAction();
       });
     });
@@ -175,8 +176,8 @@ async function addEmployee() {
 };
 
 async function viewDepartments() {
-  console.log("Viewing all departments...\n");
-  var query = connection.query("SELECT * FROM department", function(err,res) {
+  // console.log("Viewing all departments...\n");
+  connection.query("SELECT * FROM department", function(err,res) {
     if (err) throw err;
     for (var i = 0; i < res.length; i++) {
       console.log(
